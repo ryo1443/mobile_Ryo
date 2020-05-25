@@ -1,16 +1,16 @@
 class kadai_01(){
     
-    fun isLeap(year:Int):String{
+    fun isLeap(year:Int):Boolean{
         
         if(year % 4 == 0){
-            if(year % 400==0) return "True"
+            if(year % 400==0) return true
             
-            if(year % 100 ==0) return "False"
+            if(year % 100 ==0) return false
             
-            return "True"
+            return true
             
         }else{
-            return "False"
+            return false
         }
    }
 }
