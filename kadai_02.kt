@@ -1,5 +1,5 @@
 enum class Result{
- 	win,
+    win,
     lose,
     draw
 }
@@ -29,8 +29,8 @@ class kadai_02(){
     }
     
 }
-    fun main(){
+fun main(){
        var a=kadai_02()
        println(a.janken(Hand.Paper))
         
-    }
+}
