@@ -19,14 +19,18 @@ class kadai_02(){
             2->{CP=Hand.Paper}
         }
         
-        if(HandType==CP){
-            return "You ${Result.draw}! cp is ${CP}" //あいこ
-        }else if((HandType==Hand.Rock && CP==Hand.Scissorce)||(HandType==Hand.Scissorce && CP==Hand.Paper)||(HandType==Hand.Paper && CP==Hand.Rock)){
-            return "You ${Result.win}! cp is ${CP}"  //勝ち
-        }else{
-            return "You ${Result.lose}! cp is ${CP}"  //負け
+        CP?.let{
+            if(HandType==it){
+                return "You ${Result.draw}! cp is ${it}" //あいこ
+            }else if((HandType==Hand.Rock && it==Hand.Scissorce)||(HandType==Hand.Scissorce && it==Hand.Paper)||(HandType==Hand.Paper && it==Hand.Rock)){
+                return "You ${Result.win}! cp is ${it}"  //勝ち
+            }else{
+                return "You ${Result.lose}! cp is ${it}"  //負け
+            }
         }
-    }
+        
+        return "Error"
+    } 
     
 }
 fun main(){
