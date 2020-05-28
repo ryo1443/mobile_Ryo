@@ -2,4 +2,7 @@
     <string name="app_name">kadai_03</string>
     <string name="run">run</string>
     <string name="leapyear" />
+    <string name="enter_a_year_and_check">Enter a year and check</string>
+    <string name="textbox" />
+    <string name="Enter_year">Enter year</string>
 </resources>
