@@ -15,9 +15,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         RUN_button.setOnClickListener(){
-            val a = Cul()
+            val cal = Cal()
             val year:Int?=textbox.getText().toString().toIntOrNull()
-            textView.text=a.isLeap(year)
+
+            textView.text=cal.isLeap(year)
         }
 
 
@@ -26,25 +27,25 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-class Cul{
+class Cal{
 
     fun isLeap(year:Int?):String{
 
-        if(year !is Int || year <= 0 || year == null){
-            return "please enter nutural number"
+        if(year == null){
+            return "please enter year"
+            //nullのとき
         }
-        //自然数じゃないとき
 
         if(year % 4 == 0){
-            if(year % 400==0) return "${year} is leapyear!"
+            if(year % 400==0) return "$year is leapyear!"
 
-            if(year % 100 ==0) return "${year} is not leapyear!"
+            if(year % 100 ==0) return "$year is not leapyear!"
 
-            return "${year} is leapyear!"
+            return "$year is leapyear!"
 
 
         }else{
-            return "${year} is not leapyear!"
+            return "$year is not leapyear!"
         }
         //うるう年判定
     }
