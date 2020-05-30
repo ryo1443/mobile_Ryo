@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">kadai_04</string>
+    <string name="janken">JANKEN...</string>
 </resources>
