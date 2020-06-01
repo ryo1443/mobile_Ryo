@@ -3,7 +3,6 @@ package com.e.kadai_04
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AlphaAnimation
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
