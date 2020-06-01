@@ -3,6 +3,7 @@ package com.e.kadai_04
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AlphaAnimation
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 image = R.drawable.paper
             }
         }
-        CP?.let {
+        CP?.let  {
             if (HandType == it) { //あいこ
                 handAnim(it, image, Result.Draw)
             } else if ( (HandType == Hand.Rock && it == Hand.Scissors) ||
@@ -67,8 +68,13 @@ class MainActivity : AppCompatActivity() {
         var runnable = Runnable {}
         var i = 0
 
+        PaperButton.isClickable = false
+        RockButton.isClickable = false
+        ScissorsButton.isClickable = false
+
         runnable = Runnable { //100ミリ秒ごとに表示させる手の画像を変える
             i++
+
             when (i % 3) {
                 0 -> ResultImage.setImageResource(R.drawable.paper)
                 1 -> ResultImage.setImageResource(R.drawable.rock)
@@ -79,6 +85,10 @@ class MainActivity : AppCompatActivity() {
                 handler.removeCallbacks(runnable)
                 TextView.text = "You ${result}!"
                 ResultImage.setImageResource(image)
+
+                PaperButton.isClickable = true
+                RockButton.isClickable = true
+                ScissorsButton.isClickable = true
             } else {
                 handler.postDelayed(runnable, 100)
                 TextView.text = "JANKEN..."
@@ -90,6 +100,7 @@ class MainActivity : AppCompatActivity() {
     fun buttonAnim(imageButton: ImageButton) { //ボタンのフェードインとフェードアウト
         val fadeInAnim = AlphaAnimation(0.0f, 1.0f)
         val fadeOutAnim = AlphaAnimation(1.0f, 0.0f)
+
 
         fadeOutAnim.duration = 500
         fadeOutAnim.fillAfter = true
