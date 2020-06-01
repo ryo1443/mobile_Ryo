@@ -14,86 +14,89 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Paper_btn.setOnClickListener {
-            button_anim(Paper_btn)
+        PaperButton.setOnClickListener {
+            buttonAnim(PaperButton)
             janken(Hand.Paper)
         }
-        Rock_btn.setOnClickListener {
-            button_anim(Rock_btn)
+        RockButton.setOnClickListener {
+            buttonAnim(RockButton)
             janken(Hand.Rock)
         }
-        Scissors_btn.setOnClickListener {
-            button_anim(Scissors_btn)
+        ScissorsButton.setOnClickListener {
+            buttonAnim(ScissorsButton)
             janken(Hand.Scissors)
         }
     }
 
-    fun janken(HandType:Hand){
-        val cp =(0..2).random()
-        var CP:Hand?=null
-        var image:Int=R.drawable.paper
+    fun janken (HandType: Hand) {
+        val cp = (0..2).random()
+        var CP: Hand? = null
+        var image: Int = R.drawable.paper
 
-        when(cp){
-            0-> {
+        when (cp) {
+            0 -> { //0~2となる乱数が0の時の処理
                 CP = Hand.Rock
                 image = R.drawable.rock
             }
-            1->{CP=Hand.Scissors
+            1 -> { //1の時の処理
+                CP = Hand.Scissors
                 image = R.drawable.scissorce
             }
-            2->{CP=Hand.Paper
+            2 -> { //2の時の処理
+                CP = Hand.Paper
                 image = R.drawable.paper
             }
         }
-        CP?.let{
-            if(HandType==it){
-                hand_anim(it,image,Result.Draw) //あいこ
-            }else if((HandType==Hand.Rock && it==Hand.Scissors)||(HandType==Hand.Scissors && it==Hand.Paper)||(HandType==Hand.Paper && it==Hand.Rock)){
-                hand_anim(it,image,Result.Win) //勝ち
-            }else{
-                hand_anim(it,image,Result.Lose) //負け
+        CP?.let {
+            if (HandType == it) { //あいこ
+                handAnim(it, image, Result.Draw)
+            } else if ( (HandType == Hand.Rock && it == Hand.Scissors) ||
+                      (HandType == Hand.Scissors && it == Hand.Paper)||
+                      (HandType == Hand.Paper && it == Hand.Rock)
+            ) { //勝ち
+                handAnim(it, image, Result.Win)
+            } else { //負け
+                handAnim(it, image, Result.Lose)
             }
         }
-        if(CP==null) textView.text="Error"
+        if (CP == null) TextView.text = "Error" //nullチェック
     }
 
-    fun hand_anim(CP:Hand,image:Int,result: Result){ //相手の手のロール
-        var handler=Handler()
-        var runnable= Runnable {}
-        var i=0
+    fun handAnim(CP: Hand, image: Int, result: Result){ //相手の手のロール
+        var handler = Handler()
+        var runnable = Runnable {}
+        var i = 0
 
-        runnable= Runnable { //100ミリ秒ごとに表示させる手の画像を変える
+        runnable = Runnable { //100ミリ秒ごとに表示させる手の画像を変える
             i++
-            if (i % 3 == 0) {
-                ResultImage.setImageResource(R.drawable.paper)
-            } else if (i % 3 == 1) {
-                ResultImage.setImageResource(R.drawable.rock)
-            } else if (i % 3 == 2) {
-                ResultImage.setImageResource(R.drawable.scissorce)
+            when (i % 3) {
+                0 -> ResultImage.setImageResource(R.drawable.paper)
+                1 -> ResultImage.setImageResource(R.drawable.rock)
+                2 -> ResultImage.setImageResource(R.drawable.scissorce)
             }
 
-            if(i>=20){ //二秒経過で画像のロールの終了
+            if (i >= 20) { //二秒経過で画像のロールの終了
                 handler.removeCallbacks(runnable)
-                textView.text="You ${result}!"
+                TextView.text = "You ${result}!"
                 ResultImage.setImageResource(image)
-            }else{
+            } else {
                 handler.postDelayed(runnable, 100)
-                textView.text="JANKEN..."
+                TextView.text = "JANKEN..."
             }
         }
         handler.post(runnable)
     }
 
-    fun button_anim(imagebutton: ImageButton) { //ボタンのフェードインとフェードアウト
-        val fadeinAnim = AlphaAnimation(0.0f, 1.0f)
-        val fadeoutAnim = AlphaAnimation(1.0f, 0.0f)
+    fun buttonAnim(imageButton: ImageButton) { //ボタンのフェードインとフェードアウト
+        val fadeInAnim = AlphaAnimation(0.0f, 1.0f)
+        val fadeOutAnim = AlphaAnimation(1.0f, 0.0f)
 
-        fadeoutAnim.duration = 500
-        fadeoutAnim.fillAfter = true
-        imagebutton.animation = fadeoutAnim
-        fadeinAnim.duration = 500
-        fadeinAnim.fillAfter = true
-        imagebutton.animation = fadeinAnim
+        fadeOutAnim.duration = 500
+        fadeOutAnim.fillAfter = true
+        imageButton.animation = fadeOutAnim
+        fadeInAnim.duration = 500
+        fadeInAnim.fillAfter = true
+        imageButton.animation = fadeInAnim
 
     }
 }
