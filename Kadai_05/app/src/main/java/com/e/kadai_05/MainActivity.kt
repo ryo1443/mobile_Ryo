@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val itemService = retrofit.create(ItemService::class.java)
 
-        itemService.items(1, 40)?.enqueue(object: Callback<List<ItemEntity?>?> {
+        itemService.items(1, 20)?.enqueue(object: Callback<List<ItemEntity?>?> {
             override fun onFailure(call: Call<List<ItemEntity?>?>, t: Throwable){
                 Log.d("Error", t.message)
             }
