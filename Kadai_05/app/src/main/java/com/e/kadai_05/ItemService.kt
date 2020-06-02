@@ -6,8 +6,14 @@ import retrofit2.http.Query
 
 data class ItemEntity (
     val id: String,
-    val title: String
+    val title: String,
+    val user: User
 )
+
+data class User(
+    val name: String
+)
+
 interface ItemService {
     //GETで下のapiを叩けという命令を出す
     @GET("items")
