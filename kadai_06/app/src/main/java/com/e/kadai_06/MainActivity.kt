@@ -2,6 +2,7 @@ package com.e.kadai_06
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_fragment.*
@@ -13,17 +14,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val fragmentManager = supportFragmentManager
-//        val fragmentTransaction = fragmentManager.beginTransaction()
-
         var isFragmentShow: Boolean = false
         val fragmentManager = supportFragmentManager
 
-        button.setOnClickListener{
-            if (isFragmentShow == false){
+        button.setOnClickListener() {
+            if (isFragmentShow == false) {
                 val fragmentTransaction = fragmentManager.beginTransaction()
 
-                fragmentTransaction.add(R.id.container,FragmentActivity())
+                fragmentTransaction.add(R.id.container, FragmentActivity(), "test")
+                fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.commit()
                 isFragmentShow = true
             } else {
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
                 fragmentTransaction.remove(FragmentActivity())
                 fragmentTransaction.commit()
-                isFragmentShow = true
+                isFragmentShow = false
             }
         }
     }
