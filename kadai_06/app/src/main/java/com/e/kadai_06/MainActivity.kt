@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val fragmentTransaction = fragmentManager.beginTransaction()
 
-                fragmentTransaction.remove(FragmentActivity())
+//                fragmentTransaction.remove(fragmentManager.findFragmentByTag("test")!!)
+                fragmentManager.popBackStack()
                 fragmentTransaction.commit()
                 isFragmentShow = false
             }
