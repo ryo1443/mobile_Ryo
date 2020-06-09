@@ -5,15 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.fragment_web_view.*
 
 
-class WebViewFragment() : Fragment() {
+class WebViewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -30,11 +28,22 @@ class WebViewFragment() : Fragment() {
         webview_article.settings.loadWithOverviewMode = true
         webview_article.settings.useWideViewPort = true
 
-        val bundle = arguments
         val args = arguments?.getString("BUNDLE_KEY_URL")
-
         webview_article.loadUrl(args)
 
 
+    }
+
+    companion object {
+
+        fun newInstance(articleUrl: HomeFeed?): WebViewFragment {
+            val fragment = WebViewFragment()
+            val args = Bundle()
+
+            args.putString("BUNDLE_KEY_URL", articleUrl?.url)
+            fragment.arguments = args
+
+            return fragment
+        }
     }
 }
