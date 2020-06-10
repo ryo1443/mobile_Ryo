@@ -30,17 +30,15 @@ class WebViewFragment : Fragment() {
 
         val args = arguments?.getString("BUNDLE_KEY_URL")
         webview_article.loadUrl(args)
-
-
     }
 
     companion object {
 
-        fun newInstance(articleUrl: HomeFeed?): WebViewFragment {
+        fun newInstance(url: String): WebViewFragment {
             val fragment = WebViewFragment()
             val args = Bundle()
 
-            args.putString("BUNDLE_KEY_URL", articleUrl?.url)
+            args.putString("BUNDLE_KEY_URL", url)
             fragment.arguments = args
 
             return fragment

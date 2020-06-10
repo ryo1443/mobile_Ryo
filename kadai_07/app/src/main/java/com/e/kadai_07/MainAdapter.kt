@@ -3,12 +3,15 @@ package com.e.kadai_07
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.e.kadai_07.WebViewFragment.Companion.newInstance
 import kotlinx.android.synthetic.main.article_row.view.*
 
-class MainAdapter(val homeFeed: Array<HomeFeed>): RecyclerView.Adapter<CustomViewHolder>() {
+class MainAdapter(val homeFeed: Array<HomeFeed>): RecyclerView.Adapter<MainAdapter.CustomViewHolder>() {
+
+    lateinit var listener: OnItemClickListener
 
     override fun getItemCount(): Int {
         return homeFeed.count()
@@ -24,37 +27,32 @@ class MainAdapter(val homeFeed: Array<HomeFeed>): RecyclerView.Adapter<CustomVie
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val article = homeFeed.get(position)
 
-        holder.view.textView_article_title.text = article.title
+        holder.textView_article_title.text = article.title
 
         if (article.user.name == "") {
-            holder.view.textView_article_author.text = "名無しの投稿者"
+            holder.textView_article_author.text = "名無しの投稿者"
         } else {
-            holder.view.textView_article_author.text = article.user.name
+            holder.textView_article_author.text = article.user.name
         }
 
-        holder?.articleUrl = article
-    }
-
-}
-
-class CustomViewHolder(val view: View, var articleUrl: HomeFeed? = null): RecyclerView.ViewHolder(view) {
-
-    init {
-        view.setOnClickListener {
-            val fragmentManager = (view.context as FragmentActivity).supportFragmentManager
-
-            val fragment = newInstance(articleUrl)
-
-            val fragmentTransaction = fragmentManager.beginTransaction()
-
-            fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                    R.anim.slide_in_left, R.anim.slide_out_right)
-            fragmentTransaction.add(R.id.container, fragment, "fragment")
-            fragmentTransaction.addToBackStack("fragment")
-
-            fragmentTransaction.commit()
-
+        holder.view.setOnClickListener {
+            listener.onItemClickListener(it, position, article.url)
         }
     }
+    // インターフェース
+    interface OnItemClickListener{
+        fun onItemClickListener(view: View, position: Int, url: String)
+    }
 
+    // リスナー
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
+    }
+
+    class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+        val textView_article_author = view.textView_article_author
+        val textView_article_title = view.textView_article_title
+    }
 }
+
+
