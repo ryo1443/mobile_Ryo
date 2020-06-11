@@ -15,16 +15,11 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        var homeFeed2 : Array<HomeFeed>? = null
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragment_recyclerview.layoutManager = LinearLayoutManager(this)
-
+        //apiコール
         val url = "https://qiita.com/api/v2/items?page=1&per_page=20"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
@@ -36,37 +31,39 @@ class MainActivity : AppCompatActivity() {
                 val homeFeed = gson.fromJson(body, Array<HomeFeed>::class.java)
 
                 runOnUiThread {
-                    MainActivity.homeFeed2 = homeFeed
+                    val adapter = MainAdapter(homeFeed)
+                    val layoutManager = LinearLayoutManager(this@MainActivity)
 
-//                    MainActivity.homeFeed2?.let{
-//                    fragment_recyclerview.adapter = MainAdapter(it)}
+                    fragment_recyclerview.layoutManager = layoutManager
+                    fragment_recyclerview.adapter = adapter
+                    fragment_recyclerview.setHasFixedSize(true)
 
+                    //リスナーの設定
+                    adapter.setOnItemClickListener(object : MainAdapter.OnItemClickListener {
+                        override fun onItemClickListener(view: View, position: Int, url: String) {
+                            val fragment = WebViewFragment.newInstance(url)
+                            val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+                            fragmentTransaction.setCustomAnimations(
+                                R.anim.slide_in_right, R.anim.slide_out_left,
+                                R.anim.slide_in_left, R.anim.slide_out_right
+                            )
+                            fragmentTransaction.add(R.id.container, fragment, "fragment")
+                            fragmentTransaction.addToBackStack("fragment")
+
+                            fragmentTransaction.commit()
+                        }
+                    })
                 }
             }
             override fun onFailure(call: okhttp3.Call, e: IOException) {
                 println("Failed")
             }
         })
-
-        MainActivity.homeFeed2?.let {
-            fragment_recyclerview.adapter = MainAdapter(it)
-
-            MainAdapter(it).setOnItemClickListener(object : MainAdapter.OnItemClickListener {
-                override fun onItemClickListener(view: View, position: Int, url: String) {
-
-                    val fragment = WebViewFragment.newInstance(url)
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-                    fragmentTransaction.setCustomAnimations(
-                        R.anim.slide_in_right, R.anim.slide_out_left,
-                        R.anim.slide_in_left, R.anim.slide_out_right
-                    )
-                    fragmentTransaction.add(R.id.container, fragment, "fragment")
-                    fragmentTransaction.addToBackStack("fragment")
-
-                    fragmentTransaction.commit()
-                }
-            })
-        }
     }
 }
+
+
+
+
+
